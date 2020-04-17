@@ -1,0 +1,10 @@
+# The HTTP endpoint for your Prisma API
+#endpoint: ''
+endpoint: 'https://mysterious-island-30243.herokuapp.com'
+
+# Points to the file that contains your datamodel aka schema
+datamodel: schema.prisma
+
+hooks:
+  post-deploy:
+    - prisma generate
