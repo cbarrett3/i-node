@@ -8,7 +8,22 @@ datasource db {
 }
 
 model Post {
-  description String
-  id          Int    @default(autoincrement()) @id
-  url         String
+  attatchment_url String @unique
+  author_id       Int
+  content         String
+  id              Int    @default(autoincrement()) @id
+  author          User   @relation(fields: [author_id], references: [id])
+}
+
+model User {
+  email           String
+  first           String
+  id              Int    @default(autoincrement()) @id
+  last            String
+  location        String
+  password        String
+  phone           String
+  profile_pic_url String
+  username        String @unique
+  posts           Post[]
 }
