@@ -1,56 +1,49 @@
 const { GraphQLServer } = require('graphql-yoga')
+const { PrismaClient } = require('@prisma/client')
 
-// temporary data
-let posts = [{
-    id: 'post-0',
-    description: 'check out my site aye',
-    url: 'www.connorbarrett.me',
-}]
-let idCount = posts.length
+const prisma = new PrismaClient()
 
 const resolvers = {
     Query: {
-        info: () => `This is the API of indie culture`,
-        post: (args) => {
-            return posts[args.id]
+        info: () => `This is the API of indigo culture`,
+        post: (root, args, context) => {
+            return context.prisma.post.findOne({
+                where: {
+                    id: parseInt(args.id),
+                },
+            })
         },
-        // feed: () => posts,
         feed: (root, args, context, info) => {
-            return context.prisma.posts()
+            return context.prisma.post.findMany()
         }
     },
     Mutation: {
-        // post: (parent, args) => {
-        //     const post = {
-        //         id: `post-${idCount++}`,
-        //         description: args.description,
-        //         url: args.url
-        //     }
-        //     posts.push(post)
-        //     return post
-        // },
-        post: (root, args, context) => {
-            return context.prisma.createPost({
-              url: args.url,
-              description: args.description,
+        createPost: (root, args, context) => {
+            return context.prisma.post.create({
+                data: {
+                    url: args.url,
+                    description: args.description
+                }
             })
         },
-        updatePost: (parent, args) => {
-            posts.forEach((post) => {
-                if(post.id === args.id){
-                  post.id = args.id
-                  post.url = args.url
-                  post.description = args.description
-                 }
-                return post
+        updatePost: (root, args, context) => {
+            return context.prisma.post.update({
+                where: {
+                    id: parseInt(args.id),
+                },
+                data : {
+                    url: args.url,
+                    description: args.description
+                }
             })
         },
-        deletePost: (parent, args) => {
-            const removeIndex = posts.findIndex(post => post.id === args.id)
-            const removedPost = posts[removeIndex]
-            posts.splice(removeIndex, 1)
-            return removedPost
-        }
+        deletePost: (root, args, context) => {
+            return context.prisma.post.delete({
+                where: {
+                    id: parseInt(args.id),
+                }
+            })
+        },
     },
     Post: {
         id: (parent) => parent.id,
@@ -62,6 +55,7 @@ const resolvers = {
 const server = new GraphQLServer({
     typeDefs: './src/schema.graphql',
     resolvers,
+    context: { prisma },
 })
 server.start(() => console.log(`Server is running on http://localhost:4000`))
 
