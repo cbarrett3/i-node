@@ -14,17 +14,26 @@ const resolvers = {
         post: (args) => {
             return posts[args.id]
         },
-        feed: () => posts,
+        // feed: () => posts,
+        feed: (root, args, context, info) => {
+            return context.prisma.posts()
+        }
     },
     Mutation: {
-        post: (parent, args) => {
-            const post = {
-                id: `post-${idCount++}`,
-                description: args.description,
-                url: args.url
-            }
-            posts.push(post)
-            return post
+        // post: (parent, args) => {
+        //     const post = {
+        //         id: `post-${idCount++}`,
+        //         description: args.description,
+        //         url: args.url
+        //     }
+        //     posts.push(post)
+        //     return post
+        // },
+        post: (root, args, context) => {
+            return context.prisma.createPost({
+              url: args.url,
+              description: args.description,
+            })
         },
         updatePost: (parent, args) => {
             posts.forEach((post) => {
