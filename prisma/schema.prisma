@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Post {
-  attatchment_url String @unique
+  attatchment_url String? @unique
   author_id       Int
   content         String
-  id              Int    @default(autoincrement()) @id
-  author          User   @relation(fields: [author_id], references: [id])
+  id              Int     @default(autoincrement()) @id
+  author          User    @relation(fields: [author_id], references: [id])
 }
 
 model User {

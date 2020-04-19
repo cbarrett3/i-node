@@ -1,5 +1,9 @@
 function author(parent, args, context) {
-    return context.prisma.post({ id: parent.id }).author()
+    return context.prisma.post.findOne({ 
+        where: {
+            id: parent.id
+        },
+    }).author()
 }
 
 module.exports = {

@@ -21,12 +21,16 @@ async function signup(parent, args, context, info) {
         user,
     }
 }
-  
+    
 async function login(parent, args, context, info) {
     // 1
-    const {password, ...user} = await context.prisma.user({ email: args.email })
+    const {password, ...user} = await context.prisma.user.findOne({
+        where: {
+            username: args.username
+        }
+    })
     if (!user) {
-      throw new Error('No such user found')
+      throw new Error('No User found with that username')
     }
   
     // 2
@@ -49,13 +53,11 @@ function createPost(parent, args, context, info) {
     return context.prisma.post.create({
         data: {
             content: args.content,
-            author_id: userId,
             attatchment_url: args.attatchment_url,
-            time_posted: new Date(new Date() - 234798274),
             author: { connect: { id: userId } },
         }
     })
-}
+}     
 
 function updatePost(parent, args, context, info) {
     const userId = getUserId(context)
@@ -65,9 +67,7 @@ function updatePost(parent, args, context, info) {
         },
         data: {
             content: args.content,
-            author_id: userId,
             attatchment_url: args.attatchment_url,
-            time_posted: new Date(new Date() - 234798274),
             author: { connect: { id: userId } },
         }
     })
