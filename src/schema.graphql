@@ -2,7 +2,12 @@ scalar DateTime
 
 type Query {
     info: String!
-    getPost(id: Int!): Post
+    getPost(post_id: Int!): Post
+    getUser(user_id: Int!): User
+    getComment(comment_id: Int!): Comment
+    getPostClap(post_clap_id: Int!): Post_Clap
+    getPostTag(post_tag_id: Int!): Post_Tag
+    getTag(tag_id: Int!): Tag
     feed: [Post!]!
 }
 
@@ -16,6 +21,8 @@ type Mutation {
     deleteComment(comment_id: Int!): Comment
     createPostClap(post_id: Int!): Post_Clap
     deletePostClap(post_clap_id: Int!): Post_Clap
+    createPostTag(post_id: Int!, tag_id: Int!): Post_Tag
+    createTag(tag: String): Tag
 }
 
 type Post {
@@ -26,6 +33,7 @@ type Post {
     author:          User
     comments:        [Comment]
     claps:           [Post_Clap]
+    post_tags:       [Post_Tag]
 }
 
 type User {
@@ -60,6 +68,20 @@ type Post_Clap {
   post_id:      Int
   author:       User
   post:         Post
+}
+
+type Post_Tag {
+  id:      Int!
+  post_id: Int
+  tag_id:  Int
+  post:    Post
+  tag:     Tag
+}
+
+type Tag {
+  id:        Int!
+  tag:       String
+  post_tags: [Post_Tag]
 }
 
 type AuthPayload {

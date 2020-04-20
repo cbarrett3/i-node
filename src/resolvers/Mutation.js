@@ -122,6 +122,25 @@ function deletePostClap(parent, args, context, info) {
     })
 }
 
+function createPostTag(parent, args, context, info) {
+    const userId = getUserId(context)
+    return context.prisma.post_Tag.create({
+        data: {
+            post: { connect: { id: args.post_id } },
+            tag: { connect: { id: args.tag_id } }
+        }
+    })
+}
+
+function createTag(parent, args, context, info) {
+    const userId = getUserId(context)
+    return context.prisma.tag.create({
+        data: {
+            tag: args.tag
+        }
+    })
+}
+
 module.exports = {
     signup,
     login,
@@ -131,5 +150,7 @@ module.exports = {
     createComment,
     deleteComment,
     createPostClap,
-    deletePostClap
+    deletePostClap,
+    createPostTag,
+    createTag
 }

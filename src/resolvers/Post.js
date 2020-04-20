@@ -22,8 +22,17 @@ function claps(parent, args, context) {
     }).claps()
 }
 
+function post_tags(parent, args, context) {
+    return context.prisma.post.findOne({ 
+        where: {
+            id: parent.id
+        },
+    }).post_tags()
+}
+
 module.exports = {
     author,
     comments,
-    claps
+    claps,
+    post_tags
 }
