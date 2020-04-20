@@ -58,18 +58,28 @@ model Tag {
   post_tags Post_Tag[]
 }
 
+model Follow {
+  followed_user_id                    Int
+  following_user_id                   Int
+  id                                  Int  @default(autoincrement()) @id
+  followed                            User @relation("Follow_followed_user_idToUser", fields: [followed_user_id], references: [id])
+  following                           User @relation("Follow_following_user_idToUser", fields: [following_user_id], references: [id])
+}
+
 model User {
-  email           String
-  first           String
-  id              Int            @default(autoincrement()) @id
-  last            String
-  location        String
-  password        String
-  phone           String
-  profile_pic_url String
-  username        String         @unique
-  comments        Comment[]
-  comment_claps   Comment_Clap[]
-  posts           Post[]
-  post_claps      Post_Clap[]
+  email                                 String
+  first                                 String
+  id                                    Int            @default(autoincrement()) @id
+  last                                  String
+  location                              String
+  password                              String
+  phone                                 String
+  profile_pic_url                       String
+  username                              String         @unique
+  comments                              Comment[]
+  comment_claps                         Comment_Clap[]
+  followed                              Follow[]       @relation("Follow_followed_user_idToUser")
+  following                             Follow[]       @relation("Follow_following_user_idToUser")
+  posts                                 Post[]
+  post_claps                            Post_Clap[]
 }
