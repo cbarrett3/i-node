@@ -2,38 +2,64 @@ scalar DateTime
 
 type Query {
     info: String!
-    findPost(id: Int!): Post
+    getPost(id: Int!): Post
     feed: [Post!]!
 }
 
 type Mutation {
-    createPost(content: String, attatchment_url: String): Post
-    updatePost(id: Int!, content: String, attatchment_url: String ): Post
-    deletePost(id: Int!): Post
     signup(first: String, last: String, email: String, username: String, location: String, password: String, phone: String, profile_pic_url: String): AuthPayload
     login(username: String!, password: String!): AuthPayload
+    createPost(content: String, attatchment_url: String): Post
+    updatePost(post_id: Int!, content: String, attatchment_url: String ): Post
+    deletePost(post_id: Int!): Post
+    createComment(post_id: Int!, content: String): Comment
+    deleteComment(comment_id: Int!): Comment
+    createPostClap(post_id: Int!): Post_Clap
+    deletePostClap(post_clap_id: Int!): Post_Clap
 }
 
 type Post {
     id: Int!
     attatchment_url: String
-    content: String
+    content:         String
     # time_posted: DateTime
-    author: User
+    author:          User
+    comments:        [Comment]
+    claps:           [Post_Clap]
 }
 
 type User {
-  id: Int!
+  id:               Int!
 #   created_on: DateTime
-  email: String
-  first: String
-  last: String
-  location: String
-  password: String
-  phone: String
-  profile_pic_url: String
-  username: String
-  posts: [Post]
+  email:            String
+  first:            String
+  last:             String
+  location:         String
+  password:         String
+  phone:            String
+  profile_pic_url:  String
+  username:         String
+  posts:            [Post]
+  comments:         [Comment]
+  post_claps:       [Post_Clap]
+}
+
+type Comment {
+  author_id:     Int
+  content:       String
+  id:            Int!
+  post_id:       Int
+  author:        User
+  post:          Post
+#   comment_claps: Comment_Clap[]
+}
+
+type Post_Clap {
+  author_id:    Int
+  id:           Int!
+  post_id:      Int
+  author:       User
+  post:         Post
 }
 
 type AuthPayload {

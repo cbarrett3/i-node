@@ -4,7 +4,7 @@ function info () {
 function feed(root, args, context, info) {
     return context.prisma.post.findMany()
 }
-function findPost(root, args, context) {
+function getPost(root, args, context) {
     return context.prisma.post.findOne({
         where: {
             id: parseInt(args.id),
@@ -14,6 +14,6 @@ function findPost(root, args, context) {
 
 module.exports = {
     info,
-    findPost,
+    getPost,
     feed
 }

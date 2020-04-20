@@ -63,7 +63,7 @@ function updatePost(parent, args, context, info) {
     const userId = getUserId(context)
     return context.prisma.post.update({
         where: {
-            id: parseInt(args.id),
+            id: parseInt(args.post_id),
         },
         data: {
             content: args.content,
@@ -77,15 +77,59 @@ function deletePost(parent, args, context, info) {
     const userId = getUserId(context)
     return context.prisma.post.delete({
         where: {
-            id: parseInt(args.id),
+            id: parseInt(args.post_id),
         }
     })
 }
-  
+
+function createComment(parent, args, context, info) {
+    const userId = getUserId(context)
+    console.log(userId)
+    return context.prisma.comment.create({
+        data: {
+            content: args.content,
+            author: { connect: { id: userId } },
+            post: { connect: { id: args.post_id } }
+        }
+    })
+}    
+
+function deleteComment(parent, args, context, info) {
+    const userId = getUserId(context)
+    return context.prisma.comment.delete({
+        where: {
+            id: parseInt(args.comment_id),
+        }
+    })
+}
+
+function createPostClap(parent, args, context, info) {
+    const userId = getUserId(context)
+    return context.prisma.post_Clap.create({
+        data: {
+            author: { connect: { id: userId } },
+            post: { connect: { id: args.post_id } }
+        }
+    })
+}
+
+function deletePostClap(parent, args, context, info) {
+    const userId = getUserId(context)
+    return context.prisma.post_Clap.delete({
+        where: {
+            id: parseInt(args.post_clap_id),
+        }
+    })
+}
+
 module.exports = {
     signup,
     login,
     createPost,
     updatePost,
-    deletePost
+    deletePost,
+    createComment,
+    deleteComment,
+    createPostClap,
+    deletePostClap
 }
