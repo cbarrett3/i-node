@@ -14,16 +14,16 @@ function post(parent, args, context) {
     }).post()
 }
 
-function comment_claps(parent, args, context) {
-    return context.prisma.comment.findOne({
-        where: {
-            id: parent.id
-        },
-    }).comment_claps()
-}
+// function comment_claps(parent, args, context) {
+//     return context.prisma.comment.findOne({
+//         where: {
+//             id: parent.id
+//         },
+//     }).comment_claps()
+// }
 
 module.exports = {
     author,
     post,
-    comment_claps
+    // comment_claps
 }

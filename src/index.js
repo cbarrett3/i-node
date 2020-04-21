@@ -2,16 +2,26 @@ const { GraphQLServer } = require('graphql-yoga')
 const { PrismaClient } = require('@prisma/client')
 const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
+const Subscription = require('./resolvers/Subscription')
 const User = require('./resolvers/User')
 const Post = require('./resolvers/Post')
+const Post_Clap = require('./resolvers/Post_Clap')
+const Post_Tag = require('./resolvers/Post_Tag')
+const Comment = require('./resolvers/Comment')
+const Follow = require('./resolvers/Follow')
 
 const prisma = new PrismaClient()
 
 const resolvers = {
     Query,
     Mutation,
+    Subscription,
     User,
-    Post
+    Post,
+    Post_Clap,
+    Post_Tag,
+    Comment,
+    Follow
 }
     // Query: {
     //     info: () => `This is the API of indigo culture`,

@@ -60,7 +60,7 @@ function getFollowers(root, args, context) {
     const userId = getUserId(context)
     return context.prisma.user.findOne({
         where: {
-            id: userId
+            id: args.followed_user_id
         }
     }).followers()
 }

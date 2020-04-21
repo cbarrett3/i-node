@@ -9,7 +9,7 @@ type Query {
     getPostTag(post_tag_id: Int!): Post_Tag
     getTag(tag_id: Int!): Tag
     feed: [Post!]!
-    getFollowers: [Follow]
+    getFollowers(followed_user_id: Int!): [Follow]
 }
 
 type Mutation {
@@ -26,6 +26,10 @@ type Mutation {
     createTag(tag: String): Tag
     createFollow(followed_user_id: Int!): Follow
     deleteFollow(follow_id: Int!): Follow
+}
+
+type Subscription {
+  newPost: Post
 }
 
 type Post {
