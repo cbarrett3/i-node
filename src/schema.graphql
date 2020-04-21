@@ -9,6 +9,8 @@ type Query {
     getPostTag(post_tag_id: Int!): Post_Tag
     getTag(tag_id: Int!): Tag
     feed: [Post!]!
+    getFollowers: [Follow]
+    getFollowersUsers: [User]
 }
 
 type Mutation {
@@ -23,6 +25,8 @@ type Mutation {
     deletePostClap(post_clap_id: Int!): Post_Clap
     createPostTag(post_id: Int!, tag_id: Int!): Post_Tag
     createTag(tag: String): Tag
+    createFollow(followed_user_id: Int!): Follow
+    deleteFollow(follow_id: Int!): Follow
 }
 
 type Post {
@@ -49,6 +53,8 @@ type User {
   username:         String
   posts:            [Post]
   comments:         [Comment]
+  followers:        [Follow]
+  following:        [Follow]
   post_claps:       [Post_Clap]
 }
 
@@ -82,6 +88,14 @@ type Tag {
   id:        Int!
   tag:       String
   post_tags: [Post_Tag]
+}
+
+type Follow {
+  followed_user_id:   Int
+  following_user_id:  Int
+  id:                 Int!
+  followed:           User
+  following:          User
 }
 
 type AuthPayload {

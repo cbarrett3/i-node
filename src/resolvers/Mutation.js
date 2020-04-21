@@ -141,6 +141,25 @@ function createTag(parent, args, context, info) {
     })
 }
 
+function createFollow(parent, args, context, info) {
+    const userId = getUserId(context)
+    return context.prisma.follow.create({
+        data: {
+            following: { connect: { id: userId } },
+            followed: { connect: { id: args.followed_user_id } }
+        }
+    })
+}
+
+function deleteFollow(parent, args, context, info) {
+    const userId = getUserId(context)
+    return context.prisma.follow.delete({
+        where: {
+            id: parseInt(args.follow_id),
+        }
+    })
+}
+
 module.exports = {
     signup,
     login,
@@ -152,5 +171,7 @@ module.exports = {
     createPostClap,
     deletePostClap,
     createPostTag,
-    createTag
+    createTag,
+    createFollow,
+    deleteFollow
 }

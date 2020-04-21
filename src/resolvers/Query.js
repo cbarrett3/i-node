@@ -1,9 +1,13 @@
+const { APP_SECRET, getUserId } = require('../utils')
+
 function info () {
     return 'This is the API of indigo culture'
 }
+
 function feed(root, args, context, info) {
     return context.prisma.post.findMany()
 }
+
 function getUser(root, args, context) {
     return context.prisma.user.findOne({
         where: {
@@ -11,6 +15,7 @@ function getUser(root, args, context) {
         },
     })
 }
+
 function getPost(root, args, context) {
     return context.prisma.post.findOne({
         where: {
@@ -18,6 +23,7 @@ function getPost(root, args, context) {
         },
     })
 }
+
 function getComment(root, args, context) {
     return context.prisma.comment.findOne({
         where: {
@@ -25,6 +31,7 @@ function getComment(root, args, context) {
         },
     })
 }
+
 function getPostClap(root, args, context) {
     return context.prisma.post_Clap.findOne({
         where: {
@@ -32,6 +39,7 @@ function getPostClap(root, args, context) {
         },
     })
 }
+
 function getPostTag(root, args, context) {
     return context.prisma.post_Tag.findOne({
         where: {
@@ -39,6 +47,7 @@ function getPostTag(root, args, context) {
         },
     })
 }
+
 function getTag(root, args, context) {
     return context.prisma.tag.findOne({
         where: {
@@ -46,6 +55,16 @@ function getTag(root, args, context) {
         },
     })
 }
+
+function getFollowers(root, args, context) {
+    const userId = getUserId(context)
+    return context.prisma.user.findOne({
+        where: {
+            id: userId
+        }
+    }).followers()
+}
+
 
 module.exports = {
     info,
@@ -55,5 +74,6 @@ module.exports = {
     getComment,
     getPostClap,
     getPostTag,
-    getTag
+    getTag,
+    getFollowers
 }

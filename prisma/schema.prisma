@@ -78,7 +78,7 @@ model User {
   username                              String         @unique
   comments                              Comment[]
   comment_claps                         Comment_Clap[]
-  followed                              Follow[]       @relation("Follow_followed_user_idToUser")
+  followers                             Follow[]       @relation("Follow_followed_user_idToUser")
   following                             Follow[]       @relation("Follow_following_user_idToUser")
   posts                                 Post[]
   post_claps                            Post_Clap[]
