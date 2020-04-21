@@ -10,7 +10,6 @@ type Query {
     getTag(tag_id: Int!): Tag
     feed: [Post!]!
     getFollowers: [Follow]
-    getFollowersUsers: [User]
 }
 
 type Mutation {
