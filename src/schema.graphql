@@ -28,9 +28,9 @@ type Mutation {
     deleteFollow(follow_id: Int!): Follow
 }
 
-type Subscription {
-  newPost: Post
-}
+# type Subscription {
+#   newPost: Post
+# }
 
 type Post {
     id: Int!

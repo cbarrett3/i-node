@@ -103,8 +103,20 @@ function deleteComment(parent, args, context, info) {
     })
 }
 
-function createPostClap(parent, args, context, info) {
+async function createPostClap(parent, args, context, info) {
     const userId = getUserId(context)
+    const claps = await context.prisma.post.findOne({
+        where: {
+            id: args.post_id
+        },
+    }).claps()
+    if(claps) {
+        claps.forEach(function (clap) {
+            if(clap.author_id == userId) {
+                throw new Error(`Already clapped this post: ${args.post_id}`)
+            }
+        });
+    }
     return context.prisma.post_Clap.create({
         data: {
             author: { connect: { id: userId } },
@@ -141,8 +153,20 @@ function createTag(parent, args, context, info) {
     })
 }
 
-function createFollow(parent, args, context, info) {
+async function createFollow(parent, args, context, info) {
     const userId = getUserId(context)
+    const following = await context.prisma.user.findOne({
+        where: {
+            id: userId
+        },
+    }).following()
+    if(following) {
+        following.forEach(function (follow) {
+            if(follow.followed_user_id == args.followed_user_id) {
+                throw new Error(`Already following this user: ${args.followed_user_id}`)
+            }
+        });
+    }
     return context.prisma.follow.create({
         data: {
             following: { connect: { id: userId } },

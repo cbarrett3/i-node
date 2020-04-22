@@ -15,7 +15,7 @@ const prisma = new PrismaClient()
 const resolvers = {
     Query,
     Mutation,
-    Subscription,
+    // Subscription,
     User,
     Post,
     Post_Clap,
