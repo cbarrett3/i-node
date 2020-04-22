@@ -8,7 +8,7 @@ type Query {
     getPostClap(post_clap_id: Int!): Post_Clap
     getPostTag(post_tag_id: Int!): Post_Tag
     getTag(tag_id: Int!): Tag
-    feed: [Post!]!
+    feed(filter: String): [Post!]!
     getFollowers(followed_user_id: Int!): [Follow]
 }
 

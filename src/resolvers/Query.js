@@ -4,8 +4,19 @@ function info () {
     return 'This is the API of indigo culture'
 }
 
-function feed(root, args, context, info) {
-    return context.prisma.post.findMany()
+async function feed(root, args, context, info) {
+    const where = args.filter ? {
+        OR: [
+          { content: { startsWith: args.filter }},
+          { attatchment_url: { startsWith: args.filter }},
+          { content: { endsWith: args.filter }},
+          { attatchment_url: { endsWith: args.filter }}
+         ],
+      } : {}
+    const posts = await context.prisma.post.findMany({
+        where
+    })
+    return posts
 }
 
 function getUser(root, args, context) {
