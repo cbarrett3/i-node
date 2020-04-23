@@ -105,3 +105,12 @@ type AuthPayload {
   token: String
   user: User
 }
+
+# enum LinkOrderByInput {
+#   content_ASC
+#   content_DESC
+#   url_ASC
+#   url_DESC
+#   createdAt_ASC
+#   createdAt_DESC
+# }

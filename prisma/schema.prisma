@@ -8,6 +8,7 @@ datasource db {
 }
 
 model Comment {
+  created_at    DateTime?
   author_id     Int
   content       String?
   id            Int            @default(autoincrement()) @id
@@ -26,6 +27,7 @@ model Comment_Clap {
 }
 
 model Post {
+  created_at      DateTime?
   attatchment_url String?   @unique
   author_id       Int
   content         String
@@ -59,6 +61,7 @@ model Tag {
 }
 
 model Follow {
+  created_at                          DateTime?
   followed_user_id                    Int
   following_user_id                   Int
   id                                  Int  @default(autoincrement()) @id
@@ -67,6 +70,7 @@ model Follow {
 }
 
 model User {
+  created_at                            DateTime?
   email                                 String
   first                                 String
   id                                    Int            @default(autoincrement()) @id
