@@ -9,7 +9,8 @@ async function signup(parent, args, context, info) {
     const {password, ...user} = await context.prisma.user.create({
         data: {
             ...args,
-            password: hashedPassword
+            password: hashedPassword,
+            created_at: new Date()
         },
     })
     // 3
@@ -55,6 +56,7 @@ function createPost(parent, args, context, info) {
             content: args.content,
             attatchment_url: args.attatchment_url,
             author: { connect: { id: userId } },
+            created_at: new Date()
         }
     })
 }     
@@ -68,7 +70,7 @@ function updatePost(parent, args, context, info) {
         data: {
             content: args.content,
             attatchment_url: args.attatchment_url,
-            author: { connect: { id: userId } },
+            author: { connect: { id: userId } }
         }
     })
 }
@@ -89,7 +91,8 @@ function createComment(parent, args, context, info) {
         data: {
             content: args.content,
             author: { connect: { id: userId } },
-            post: { connect: { id: args.post_id } }
+            post: { connect: { id: args.post_id } },
+            created_at: new Date()
         }
     })
 }    
@@ -170,7 +173,8 @@ async function createFollow(parent, args, context, info) {
     return context.prisma.follow.create({
         data: {
             following: { connect: { id: userId } },
-            followed: { connect: { id: args.followed_user_id } }
+            followed: { connect: { id: args.followed_user_id } },
+            created_at: new Date()
         }
     })
 }

@@ -16,7 +16,8 @@ async function feed(root, args, context, info) {
     const posts = await context.prisma.post.findMany({
         where,
         skip: args.skip,
-        first: args.first
+        first: args.first,
+        orderBy: { created_at: 'desc' }
     })
     return posts
 }

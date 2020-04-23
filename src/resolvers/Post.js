@@ -30,6 +30,14 @@ function post_tags(parent, args, context) {
     }).post_tags()
 }
 
+// function post_tags(parent, args, context) {
+//     return context.prisma.post.findOne({ 
+//         where: {
+//             id: parent.id
+//         },
+//     }).post_tags()
+// }
+
 module.exports = {
     author,
     comments,

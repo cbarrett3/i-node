@@ -33,19 +33,20 @@ type Mutation {
 # }
 
 type Post {
-    id: Int!
-    attatchment_url: String
-    content:         String
-    # time_posted: DateTime
-    author:          User
-    comments:        [Comment]
-    claps:           [Post_Clap]
-    post_tags:       [Post_Tag]
+  created_at:      DateTime
+  id:              Int!
+  attatchment_url: String
+  content:         String
+  # time_posted: DateTime
+  author:          User
+  comments:        [Comment]
+  claps:           [Post_Clap]
+  post_tags:       [Post_Tag]
 }
 
 type User {
   id:               Int!
-#   created_on: DateTime
+  # created_on: DateTime
   email:            String
   first:            String
   last:             String
@@ -54,6 +55,7 @@ type User {
   phone:            String
   profile_pic_url:  String
   username:         String
+  created_at:       DateTime
   posts:            [Post]
   comments:         [Comment]
   followers:        [Follow]
@@ -62,6 +64,7 @@ type User {
 }
 
 type Comment {
+  created_at:    DateTime
   author_id:     Int
   content:       String
   id:            Int!
@@ -94,6 +97,7 @@ type Tag {
 }
 
 type Follow {
+  created_at:         DateTime
   followed_user_id:   Int
   following_user_id:  Int
   id:                 Int!
@@ -105,12 +109,3 @@ type AuthPayload {
   token: String
   user: User
 }
-
-# enum LinkOrderByInput {
-#   content_ASC
-#   content_DESC
-#   url_ASC
-#   url_DESC
-#   createdAt_ASC
-#   createdAt_DESC
-# }
