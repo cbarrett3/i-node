@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Comment {
+  created_at    DateTime?
+  author_id     Int
+  content       String?
+  id            Int            @default(autoincrement()) @id
+  post_id       Int
+  author        User           @relation(fields: [author_id], references: [id])
+  post          Post           @relation(fields: [post_id], references: [id])
+  comment_claps Comment_Clap[]
+}
+
+model Comment_Clap {
+  author_id  Int
+  comment_id Int
+  id         Int     @default(autoincrement()) @id
+  author     User    @relation(fields: [author_id], references: [id])
+  comment    Comment @relation(fields: [comment_id], references: [id])
+}
+
+model Post {
+  created_at      DateTime?
+  attatchment_url String?   @unique
+  author_id       Int
+  content         String
+  id              Int       @default(autoincrement()) @id
+  author          User      @relation(fields: [author_id], references: [id])
+  comments        Comment[]
+  claps           Post_Clap[]
+  post_tags       Post_Tag[]
+}
+
+model Post_Clap {
+  author_id Int
+  id        Int  @default(autoincrement()) @id
+  post_id   Int
+  author    User @relation(fields: [author_id], references: [id])
+  post      Post @relation(fields: [post_id], references: [id])
+}
+
+model Post_Tag {
+  id      Int  @default(autoincrement()) @id
+  post_id Int
+  tag_id  Int
+  post    Post @relation(fields: [post_id], references: [id])
+  tag     Tag  @relation(fields: [tag_id], references: [id])
+}
+
+model Tag {
+  id        Int        @default(autoincrement()) @id
+  tag       String?
+  post_tags Post_Tag[]
+}
+
+model Follow {
+  created_at                          DateTime?
+  followed_user_id                    Int
+  following_user_id                   Int
+  id                                  Int  @default(autoincrement()) @id
+  followed                            User @relation("Follow_followed_user_idToUser", fields: [followed_user_id], references: [id])
+  following                           User @relation("Follow_following_user_idToUser", fields: [following_user_id], references: [id])
+}
+
+model User {
+  created_at                            DateTime?
+  email                                 String
+  first                                 String
+  id                                    Int            @default(autoincrement()) @id
+  last                                  String
+  location                              String
+  password                              String
+  phone                                 String
+  profile_pic_url                       String
+  username                              String         @unique
+  role_type                             role_enum?     @default(USER)
+  comments                              Comment[]
+  comment_claps                         Comment_Clap[]
+  followers                             Follow[]       @relation("Follow_followed_user_idToUser")
+  following                             Follow[]       @relation("Follow_following_user_idToUser")
+  posts                                 Post[]
+  post_claps                            Post_Clap[]
+}
+
+enum role_enum {
+  ADMIN
+  USER
+}

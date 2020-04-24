@@ -61,49 +61,79 @@ function createPost(parent, args, context, info) {
     })
 }     
 
-function updatePost(parent, args, context, info) {
+async function updatePost(parent, args, context, info) {
     const userId = getUserId(context)
-    return context.prisma.post.update({
-        where: {
-            id: parseInt(args.post_id),
-        },
-        data: {
-            content: args.content,
-            attatchment_url: args.attatchment_url,
-            author: { connect: { id: userId } }
-        }
-    })
+    if(args.author_id == userId) {
+        return context.prisma.post.update({
+            where: {
+                id: parseInt(args.post_id),
+            },
+            data: {
+                content: args.content,
+                attatchment_url: args.attatchment_url
+            }
+        })
+    }
+    else {
+        throw new Error(`User is not allowed to edit this post: ${args.post_id}`)
+    }
 }
 
-function deletePost(parent, args, context, info) {
+async function deletePost(parent, args, context, info) {
     const userId = getUserId(context)
-    return context.prisma.post.delete({
-        where: {
-            id: parseInt(args.post_id),
-        }
-    })
+    if(args.author_id == userId) {
+        return context.prisma.post.delete({
+            where: {
+                id: parseInt(args.post_id),
+            }
+        })
+    }
+    else {
+        throw new Error(`User is not allowed to delete this post: ${args.post_id}`)
+    }
 }
 
 function createComment(parent, args, context, info) {
     const userId = getUserId(context)
-    console.log(userId)
     return context.prisma.comment.create({
         data: {
             content: args.content,
-            author: { connect: { id: userId } },
-            post: { connect: { id: args.post_id } },
+            author: { connect: { id: parseInt(userId) } },
+            post: { connect: { id: parseInt(args.post_id) } },
             created_at: new Date()
         }
     })
-}    
+}
 
-function deleteComment(parent, args, context, info) {
+async function updateComment(parent, args, context, info) {
     const userId = getUserId(context)
-    return context.prisma.comment.delete({
-        where: {
-            id: parseInt(args.comment_id),
-        }
-    })
+    if(args.author_id == userId) {
+        return context.prisma.comment.update({
+            where: {
+                id: parseInt(args.comment_id),
+            },
+            data: {
+                content: args.content
+            }
+        })
+    }
+    else {
+        throw new Error(`User is not allowed to edit this comment: ${args.comment_id}`)
+    }
+}
+
+async function deleteComment(parent, args, context, info) {
+    const userId = getUserId(context)
+    if(args.author_id == userId) {
+        return context.prisma.comment.delete({
+            where: {
+                id: parseInt(args.comment_id),
+            }
+        })
+    }
+    else {
+        throw new Error(`User is not allowed to delete this comment: ${args.comment_id}`)
+    }
 }
 
 async function createPostClap(parent, args, context, info) {
@@ -123,26 +153,31 @@ async function createPostClap(parent, args, context, info) {
     return context.prisma.post_Clap.create({
         data: {
             author: { connect: { id: userId } },
-            post: { connect: { id: args.post_id } }
+            post: { connect: { id: parseInt(args.post_id) } }
         }
     })
 }
 
-function deletePostClap(parent, args, context, info) {
+async function deletePostClap(parent, args, context, info) {
     const userId = getUserId(context)
-    return context.prisma.post_Clap.delete({
-        where: {
-            id: parseInt(args.post_clap_id),
-        }
-    })
+    if(args.author_id == userId) {
+        return context.prisma.post_Clap.delete({
+            where: {
+                id: parseInt(args.post_clap_id),
+            }
+        })
+    }
+    else {
+        throw new Error(`User is not allowed to delete this Post Clap: ${args.post_clap_id}`)
+    }
 }
 
 function createPostTag(parent, args, context, info) {
     const userId = getUserId(context)
     return context.prisma.post_Tag.create({
         data: {
-            post: { connect: { id: args.post_id } },
-            tag: { connect: { id: args.tag_id } }
+            post: { connect: { id: parseInt(args.post_id) } },
+            tag: { connect: { id: parseInt(args.tag_id) } }
         }
     })
 }
@@ -173,7 +208,7 @@ async function createFollow(parent, args, context, info) {
     return context.prisma.follow.create({
         data: {
             following: { connect: { id: userId } },
-            followed: { connect: { id: args.followed_user_id } },
+            followed: { connect: { id: parseInt(args.followed_user_id) } },
             created_at: new Date()
         }
     })
@@ -183,7 +218,8 @@ function deleteFollow(parent, args, context, info) {
     const userId = getUserId(context)
     return context.prisma.follow.delete({
         where: {
-            id: parseInt(args.follow_id),
+            following_user_id: userId,
+            followed_user_id: parseInt(args.followed_user_id),
         }
     })
 }
@@ -195,6 +231,7 @@ module.exports = {
     updatePost,
     deletePost,
     createComment,
+    updateComment,
     deleteComment,
     createPostClap,
     deletePostClap,

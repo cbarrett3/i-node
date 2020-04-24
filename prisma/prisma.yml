@@ -4,7 +4,3 @@ endpoint: 'https://mysterious-island-30243.herokuapp.com'
 
 # Points to the file that contains your datamodel aka schema
 datamodel: schema.prisma
-
-# generate:
-#   - generator: javascript-client
-#     output: ../src/generated/prisma-client
