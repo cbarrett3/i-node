@@ -3,9 +3,7 @@ const jwt = require('jsonwebtoken')
 const { APP_SECRET, getUserId } = require('../utils')
 
 async function signup(parent, args, context, info) {
-    // 1
     const hashedPassword = await bcrypt.hash(args.password, 10)
-    // 2
     const {password, ...user} = await context.prisma.user.create({
         data: {
             ...args,
@@ -13,10 +11,7 @@ async function signup(parent, args, context, info) {
             created_at: new Date()
         },
     })
-    // 3
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
-
-    // 4
     return {
         token,
         user,
@@ -24,7 +19,6 @@ async function signup(parent, args, context, info) {
 }
     
 async function login(parent, args, context, info) {
-    // 1
     const {password, ...user} = await context.prisma.user.findOne({
         where: {
             username: args.username
@@ -33,16 +27,11 @@ async function login(parent, args, context, info) {
     if (!user) {
       throw new Error('No User found with that username')
     }
-  
-    // 2
     const valid = await bcrypt.compare(args.password, password)
     if (!valid) {
       throw new Error('Invalid password')
     }
-  
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
-  
-    // 3
     return {
       token,
       user,
