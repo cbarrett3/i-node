@@ -45,7 +45,8 @@ function createPost(parent, args, context, info) {
             content: args.content,
             attatchment_url: args.attatchment_url,
             author: { connect: { id: userId } },
-            created_at: new Date()
+            created_at: new Date(),
+            priv_post: args.priv_post
         }
     })
 }     
@@ -59,7 +60,8 @@ async function updatePost(parent, args, context, info) {
             },
             data: {
                 content: args.content,
-                attatchment_url: args.attatchment_url
+                attatchment_url: args.attatchment_url,
+                priv_post: args.priv_post
             }
         })
     }

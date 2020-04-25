@@ -15,8 +15,8 @@ type Query {
 type Mutation {
     signup(first: String, last: String, email: String, username: String, location: String, password: String, phone: String, profile_pic_url: String): AuthPayload
     login(username: String!, password: String!): AuthPayload
-    createPost(content: String, attatchment_url: String): Post
-    updatePost(post_id: Int!, author_id: Int, content: String, attatchment_url: String ): Post
+    createPost(content: String, attatchment_url: String, priv_post: Boolean): Post
+    updatePost(post_id: Int!, author_id: Int, content: String, attatchment_url: String, priv_post: Boolean): Post
     deletePost(post_id: Int!, author_id: Int): Post
     createComment(post_id: Int!, content: String): Comment
     updateComment(comment_id: Int!, author_id: Int, content: String): Comment
@@ -31,6 +31,7 @@ type Mutation {
 
 type Post {
   created_at:      DateTime
+  priv_post:       Boolean
   author_id:       Int
   id:              Int!
   attatchment_url: String

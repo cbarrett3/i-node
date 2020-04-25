@@ -12,7 +12,9 @@ async function feed(root, args, context, info) {
           { content: { endsWith: args.filter }},
           { attatchment_url: { endsWith: args.filter }}
          ],
-      } : {}
+         priv_post: false,
+      } : { priv_post: false }
+
     const posts = await context.prisma.post.findMany({
         where,
         skip: args.skip,

@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../src/generated/client"
+  // output = "../src/generated/client"
 }
 
 datasource db {
@@ -29,6 +29,7 @@ model Comment_Clap {
 
 model Post {
   created_at      DateTime?
+  priv_post       Boolean?  @default(true)
   attatchment_url String?   @unique
   author_id       Int
   content         String

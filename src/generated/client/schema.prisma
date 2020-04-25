@@ -29,6 +29,7 @@ model Comment_Clap {
 
 model Post {
   created_at      DateTime?
+  priv_post       Boolean?  @default(true)
   attatchment_url String?   @unique
   author_id       Int
   content         String

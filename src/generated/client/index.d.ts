@@ -1217,6 +1217,7 @@ export type Comment_ClapArgs = {
 
 export type Post = {
   created_at: Date | null
+  priv_post: boolean | null
   attatchment_url: string | null
   author_id: number
   content: string
@@ -1225,6 +1226,7 @@ export type Post = {
 
 export type PostSelect = {
   created_at?: boolean
+  priv_post?: boolean
   attatchment_url?: boolean
   author_id?: boolean
   content?: boolean
@@ -3852,6 +3854,7 @@ export type Post_TagWhereInput = {
 
 export type PostWhereInput = {
   created_at?: Date | string | NullableDateTimeFilter | null
+  priv_post?: boolean | NullableBooleanFilter | null
   attatchment_url?: string | NullableStringFilter | null
   author_id?: number | IntFilter | null
   content?: string | StringFilter | null
@@ -3968,6 +3971,7 @@ export type Post_TagCreateManyWithoutPostInput = {
 
 export type PostCreateWithoutClapsInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content: string
   author: UserCreateOneWithoutPostsInput
@@ -4056,6 +4060,7 @@ export type Post_ClapCreateManyWithoutPostInput = {
 
 export type PostCreateWithoutAuthorInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content: string
   comments?: CommentCreateManyWithoutPostInput | null
@@ -4170,6 +4175,7 @@ export type UserCreateOneWithoutPostsInput = {
 
 export type PostCreateWithoutCommentsInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content: string
   author: UserCreateOneWithoutPostsInput
@@ -4353,6 +4359,7 @@ export type Post_TagUpdateManyWithoutPostInput = {
 
 export type PostUpdateWithoutClapsDataInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content?: string | null
   id?: number | null
@@ -4560,6 +4567,7 @@ export type Post_ClapUpdateManyWithoutPostInput = {
 
 export type PostUpdateWithoutAuthorDataInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content?: string | null
   id?: number | null
@@ -4575,6 +4583,7 @@ export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
 
 export type PostScalarWhereInput = {
   created_at?: Date | string | NullableDateTimeFilter | null
+  priv_post?: boolean | NullableBooleanFilter | null
   attatchment_url?: string | NullableStringFilter | null
   author_id?: number | IntFilter | null
   content?: string | StringFilter | null
@@ -4589,6 +4598,7 @@ export type PostScalarWhereInput = {
 
 export type PostUpdateManyDataInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content?: string | null
   id?: number | null
@@ -4818,6 +4828,7 @@ export type UserUpdateOneRequiredWithoutPostsInput = {
 
 export type PostUpdateWithoutCommentsDataInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content?: string | null
   id?: number | null
@@ -4949,6 +4960,7 @@ export type Comment_ClapUpdateManyMutationInput = {
 
 export type PostCreateInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content: string
   author: UserCreateOneWithoutPostsInput
@@ -4959,6 +4971,7 @@ export type PostCreateInput = {
 
 export type PostUpdateInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content?: string | null
   id?: number | null
@@ -4970,6 +4983,7 @@ export type PostUpdateInput = {
 
 export type PostUpdateManyMutationInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content?: string | null
   id?: number | null
@@ -4992,6 +5006,7 @@ export type Post_ClapUpdateManyMutationInput = {
 
 export type PostCreateWithoutPost_tagsInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content: string
   author: UserCreateOneWithoutPostsInput
@@ -5011,6 +5026,7 @@ export type Post_TagCreateInput = {
 
 export type PostUpdateWithoutPost_tagsDataInput = {
   created_at?: Date | string | null
+  priv_post?: boolean | null
   attatchment_url?: string | null
   content?: string | null
   id?: number | null
@@ -5207,6 +5223,11 @@ export type Post_TagFilter = {
   none?: Post_TagWhereInput | null
 }
 
+export type NullableBooleanFilter = {
+  equals?: boolean | null
+  not?: boolean | null | NullableBooleanFilter
+}
+
 export type StringFilter = {
   equals?: string | null
   not?: string | StringFilter | null
@@ -5281,6 +5302,7 @@ export type FollowOrderByInput = {
 
 export type PostOrderByInput = {
   created_at?: OrderByArg | null
+  priv_post?: OrderByArg | null
   attatchment_url?: OrderByArg | null
   author_id?: OrderByArg | null
   content?: OrderByArg | null
