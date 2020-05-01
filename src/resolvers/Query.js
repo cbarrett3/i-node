@@ -4,7 +4,7 @@ function info () {
     return 'This is the API of indigo culture'
 }
 
-async function feed(root, args, context, info) {
+async function postsFeed(root, args, context, info) {
     const where = args.filter ? {
         OR: [
           { content: { startsWith: args.filter }},
@@ -24,6 +24,26 @@ async function feed(root, args, context, info) {
     return posts
 }
 
+async function questionsFeed(root, args, context, info) {
+    const where = args.filter ? {
+        OR: [
+          { content: { startsWith: args.filter }},
+          { attatchment_url: { startsWith: args.filter }},
+          { content: { endsWith: args.filter }},
+          { attatchment_url: { endsWith: args.filter }}
+         ],
+         priv_question: false,
+      } : { priv_question: false }
+
+    const questions = await context.prisma.question.findMany({
+        where,
+        skip: args.skip,
+        first: args.first,
+        orderBy: { created_at: 'desc' }
+    })
+    return questions
+}
+
 function getUser(root, args, context) {
     return context.prisma.user.findOne({
         where: {
@@ -40,10 +60,10 @@ function getPost(root, args, context) {
     })
 }
 
-function getComment(root, args, context) {
-    return context.prisma.comment.findOne({
+function getPostComment(root, args, context) {
+    return context.prisma.post_Comment.findOne({
         where: {
-            id: parseInt(args.comment_id),
+            id: parseInt(args.post_comment_id),
         },
     })
 }
@@ -84,10 +104,11 @@ function getFollowers(root, args, context) {
 
 module.exports = {
     info,
-    feed,
+    postsFeed,
+    questionsFeed,
     getUser,
     getPost,
-    getComment,
+    getPostComment,
     getPostClap,
     getPostTag,
     getTag,

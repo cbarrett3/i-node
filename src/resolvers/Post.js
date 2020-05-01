@@ -6,20 +6,20 @@ function author(parent, args, context) {
     }).author()
 }
 
-function comments(parent, args, context) {
+function post_comments(parent, args, context) {
     return context.prisma.post.findOne({ 
         where: {
             id: parent.id
         },
-    }).comments()
+    }).post_comments()
 }
 
-function claps(parent, args, context) {
+function post_claps(parent, args, context) {
     return context.prisma.post.findOne({ 
         where: {
             id: parent.id
         },
-    }).claps()
+    }).post_claps()
 }
 
 function post_tags(parent, args, context) {
@@ -30,17 +30,9 @@ function post_tags(parent, args, context) {
     }).post_tags()
 }
 
-// function post_tags(parent, args, context) {
-//     return context.prisma.post.findOne({ 
-//         where: {
-//             id: parent.id
-//         },
-//     }).post_tags()
-// }
-
 module.exports = {
     author,
-    comments,
-    claps,
+    post_comments,
+    post_claps,
     post_tags
 }

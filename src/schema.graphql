@@ -4,27 +4,55 @@ type Query {
     info: String!
     getPost(post_id: Int!): Post
     getUser(user_id: Int!): User
-    getComment(comment_id: Int!): Comment
+    getPostComment(post_comment_id: Int!): Post_Comment
     getPostClap(post_clap_id: Int!): Post_Clap
     getPostTag(post_tag_id: Int!): Post_Tag
     getTag(tag_id: Int!): Tag
-    feed(filter: String, skip: Int, first: Int): [Post!]!
+    # feeds
+    postsFeed(filter: String, skip: Int, first: Int): [Post!]!
+    questionsFeed(filter: String, skip: Int, first: Int): [Question!]!
+    # follows
     getFollowers(followed_user_id: Int!): [Follow]
+    getFollowing: [Follow]
 }
 
 type Mutation {
+    # login & signup
     signup(first: String, last: String, email: String, username: String, location: String, password: String, phone: String, profile_pic_url: String): AuthPayload
     login(username: String!, password: String!): AuthPayload
+    # post crud
     createPost(content: String, attatchment_url: String, priv_post: Boolean): Post
     updatePost(post_id: Int!, author_id: Int, content: String, attatchment_url: String, priv_post: Boolean): Post
     deletePost(post_id: Int!, author_id: Int): Post
-    createComment(post_id: Int!, content: String): Comment
-    updateComment(comment_id: Int!, author_id: Int, content: String): Comment
-    deleteComment(comment_id: Int!, author_id: Int): Comment
+    # post clap crud
     createPostClap(post_id: Int!): Post_Clap
     deletePostClap(post_clap_id: Int!, author_id: Int): Post_Clap
+    # post comment crud
+    createPostComment(post_id: Int!, content: String): Post_Comment
+    updatePostComment(post_comment_id: Int!, author_id: Int, content: String): Post_Comment
+    deletePostComment(post_comment_id: Int!, author_id: Int): Post_Comment
+    # post comment clap crud
+    createPostCommentClap(post_comment_id: Int!): Post_Comment_Clap
+    deletePostCommentClap(post_comment_clap_id: Int!, author_id: Int): Post_Comment_Clap
+    # question crud
+    createQuestion(content: String, response: String, attatchment_url: String, priv_question: Boolean): Question
+    updateQuestion(question_id: Int!, response: String, author_id: Int, content: String, attatchment_url: String, priv_question: Boolean): Question
+    deleteQuestion(question_id: Int!, author_id: Int): Question
+    # question clap crud
+    createQuestionClap(question_id: Int!): Question_Clap
+    deleteQuestionClap(question_clap_id: Int!, author_id: Int): Question_Clap
+    # question comment crud
+    createQuestionComment(question_id: Int!, content: String): Question_Comment
+    updateQuestionComment(question_comment_id: Int!, author_id: Int, content: String): Question_Comment
+    deleteQuestionComment(question_comment_id: Int!, author_id: Int): Question_Comment
+    # question comment clap crud
+    createQuestionCommentClap(question_comment_id: Int!): Question_Comment_Clap
+    deleteQuestionCommentClap(question_comment_clap_id: Int!, author_id: Int): Question_Comment_Clap
+    # tags
     createPostTag(post_id: Int!, tag_id: Int!): Post_Tag
+    createQuestionTag(question_id: Int!, tag_id: Int!): Question_Tag
     createTag(tag: String): Tag
+    # follows
     createFollow(followed_user_id: Int!): Follow
     deleteFollow(followed_user_id: Int!): Follow
 }
@@ -37,38 +65,58 @@ type Post {
   attatchment_url: String
   content:         String
   author:          User
-  comments:        [Comment]
-  claps:           [Post_Clap]
+  post_comments:   [Post_Comment]
+  post_claps:      [Post_Clap]
   post_tags:       [Post_Tag]
 }
 
-type User {
-  id:               Int!
-  email:            String
-  first:            String
-  last:             String
-  location:         String
-  password:         String
-  phone:            String
-  profile_pic_url:  String
-  username:         String
-  created_at:       DateTime
-  posts:            [Post]
-  comments:         [Comment]
-  followers:        [Follow]
-  following:        [Follow]
-  post_claps:       [Post_Clap]
+type Question {
+  created_at:         DateTime
+  priv_question:      Boolean
+  author_id:          Int
+  id:                 Int!
+  attatchment_url:    String
+  content:            String
+  response:           String
+  author:             User
+  question_comments:  [Question_Comment]
+  question_claps:     [Question_Clap]
+  question_tags:      [Question_Tag]
 }
 
-type Comment {
-  created_at:    DateTime
-  author_id:     Int
-  content:       String
-  id:            Int!
-  post_id:       Int
-  author:        User
-  post:          Post
-#   comment_claps: Comment_Clap[]
+type User {
+  id:                     Int!
+  email:                  String
+  first:                  String
+  last:                   String
+  location:               String
+  password:               String
+  phone:                  String
+  profile_pic_url:        String
+  username:               String
+  quote:                  String
+  created_at:             DateTime
+  posts:                  [Post]
+  post_claps:             [Post_Clap]
+  post_comments:          [Post_Comment]
+  post_comment_claps:     [Post_Comment_Clap]
+  questions:              [Question]
+  question_claps:         [Question_Clap]
+  question_comments:      [Question_Comment]
+  question_comment_claps: [Question_Comment_Clap]
+  followers:              [Follow]
+  following:              [Follow]
+}
+
+type Post_Comment {
+  created_at:         DateTime
+  author_id:          Int
+  content:            String
+  id:                 Int!
+  post_id:            Int
+  author:             User
+  post:               Post
+  post_comment_claps: [Post_Comment_Clap]
 }
 
 type Post_Clap {
@@ -79,6 +127,14 @@ type Post_Clap {
   post:         Post
 }
 
+type Post_Comment_Clap {
+  author_id:    Int
+  comment_id:   Int
+  id:           Int!   
+  author:       User  
+  post_comment: Post_Comment
+}
+
 type Post_Tag {
   id:      Int!
   post_id: Int
@@ -87,10 +143,46 @@ type Post_Tag {
   tag:     Tag
 }
 
+type Question_Clap {
+  author_id:   Int
+  id:          Int!
+  question_id: Int
+  author:      User
+  question:    Question
+}
+
+type Question_Comment {
+  author_id:              Int!
+  content:                String
+  created_at:             DateTime
+  id:                     Int     
+  question_id:            Int
+  author:                 User        
+  question:               Question 
+  question_comment_claps: [Question_Comment_Clap]
+}
+
+type Question_Comment_Clap {
+  author_id:          Int!
+  comment_id:         Int
+  id:                 Int 
+  author:             User       
+  question_comment:   Question_Comment
+}
+
+type Question_Tag {
+  id:          Int!
+  question_id: Int
+  tag_id:      Int
+  question:    Question 
+  tag:         Tag 
+}
+
 type Tag {
-  id:        Int!
-  tag:       String
-  post_tags: [Post_Tag]
+  id:             Int!
+  tag:            String
+  post_tags:      [Post_Tag]
+  question_tags:  [Question_Tag]
 }
 
 type Follow {
