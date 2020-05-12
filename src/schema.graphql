@@ -18,7 +18,7 @@ type Query {
 
 type Mutation {
     # login & signup
-    signup(first: String, last: String, email: String, username: String, location: String, password: String, phone: String, profile_pic_url: String): AuthPayload
+    signup(first: String, last: String, email: String, username: String, password: String): AuthPayload
     login(username: String!, password: String!): AuthPayload
     # post crud
     createPost(content: String, attatchment_url: String, priv_post: Boolean): Post

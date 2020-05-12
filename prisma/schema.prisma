@@ -127,10 +127,10 @@ model User {
   first                                  String
   id                                     Int                     @default(autoincrement()) @id
   last                                   String
-  location                               String
+  location                               String?
   password                               String
-  phone                                  String
-  profile_pic_url                        String
+  phone                                  String?
+  profile_pic_url                        String?
   quote                                  String?
   role_type                              role_enum?              @default(USER)
   username                               String                  @unique
