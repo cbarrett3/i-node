@@ -52,6 +52,15 @@ function getUser(root, args, context) {
     })
 }
 
+function getLoggedInUser(root, args, context) {
+    const userId = getUserId(context)
+    return context.prisma.user.findOne({
+        where: {
+            id: userId,
+        },
+    })
+}
+
 function getPost(root, args, context) {
     return context.prisma.post.findOne({
         where: {
@@ -107,6 +116,7 @@ module.exports = {
     postsFeed,
     questionsFeed,
     getUser,
+    getLoggedInUser,
     getPost,
     getPostComment,
     getPostClap,

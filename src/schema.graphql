@@ -4,6 +4,7 @@ type Query {
     info: String!
     getPost(post_id: Int!): Post
     getUser(user_id: Int!): User
+    getLoggedInUser: User
     getPostComment(post_comment_id: Int!): Post_Comment
     getPostClap(post_clap_id: Int!): Post_Clap
     getPostTag(post_tag_id: Int!): Post_Tag
