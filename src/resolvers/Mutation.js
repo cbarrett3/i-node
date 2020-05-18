@@ -40,7 +40,6 @@ async function login(parent, args, context, info) {
 
 function createPost(parent, args, context, info) {
     const userId = getUserId(context)
-    console.log(userId)
     return context.prisma.post.create({
         data: {
             content: args.content,
