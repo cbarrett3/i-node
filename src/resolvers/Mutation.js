@@ -390,6 +390,20 @@ function createTag(parent, args, context, info) {
     })
 }
 
+function createTags(parent, args, context, info) {
+    const userId = getUserId(context)
+    var tags_created = []
+    tags = args.tags
+    tags.map(tag => 
+        tags_created = tags_created.concat(context.prisma.tag.create({
+            data: {
+                tag: tag
+            }
+        }))
+    )
+    return tags_created
+}
+
 async function createFollow(parent, args, context, info) {
     const userId = getUserId(context)
     const following = await context.prisma.user.findOne({
@@ -449,6 +463,7 @@ module.exports = {
     deleteQuestionClap,
     createQuestionTag,
     createTag,
+    createTags,
     createFollow,
     deleteFollow
 }

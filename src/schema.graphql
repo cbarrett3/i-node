@@ -53,10 +53,16 @@ type Mutation {
     createPostTag(post_id: Int!, tag_id: Int!): Post_Tag
     createQuestionTag(question_id: Int!, tag_id: Int!): Question_Tag
     createTag(tag: String): Tag
+    createTags(tags: [String]): [Tag]
     # follows
     createFollow(followed_user_id: Int!): Follow
     deleteFollow(followed_user_id: Int!): Follow
 }
+
+# TESTING: so we can add multiple tags with one request
+# input CreateTagInput {
+#   tag: String
+# }
 
 type Post {
   created_at:      DateTime
