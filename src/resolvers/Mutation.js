@@ -40,6 +40,17 @@ async function login(parent, args, context, info) {
 
 function createPost(parent, args, context, info) {
     const userId = getUserId(context)
+    // var tags_created = []
+    // tags = args.tags
+    // tags.map(tag => 
+    //     tags_created = tags_created.concat(context.prisma.tag.create({
+    //         data: {
+    //             tag: tag
+    //         }
+    //     }))
+    // )
+    // console.log(tags_created)
+    // return tags_created
     return context.prisma.post.create({
         data: {
             content: args.content,
@@ -371,6 +382,35 @@ function createPostTag(parent, args, context, info) {
     })
 }
 
+function createPostTags(parent, args, context, info) {
+    const userId = getUserId(context)
+    var post_tags = []
+    var tag_ids = args.tag_ids
+    tag_ids.map(tag_id => 
+        post_tags = post_tags.concat(context.prisma.post_Tag.create({
+            data: {
+                post: { connect: { id: args.post_id} },
+                tag: { connect: { id: tag_id}}
+            }
+        }))
+    )
+    return post_tags
+}
+
+// function createTags(parent, args, context, info) {
+//     const userId = getUserId(context)
+//     var tags_created = []
+//     tags = args.tags
+//     tags.map(tag => 
+//         tags_created = tags_created.concat(context.prisma.tag.create({
+//             data: {
+//                 tag: tag
+//             }
+//         }))
+//     )
+//     return tags_created
+// }
+
 function createQuestionTag(parent, args, context, info) {
     const userId = getUserId(context)
     return context.prisma.question_Tag.create({
@@ -451,6 +491,7 @@ module.exports = {
     createPostClap,
     deletePostClap,
     createPostTag,
+    createPostTags,
     createQuestion,
     updateQuestion,
     deleteQuestion,

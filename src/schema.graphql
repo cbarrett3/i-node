@@ -22,7 +22,7 @@ type Mutation {
     signup(first: String, last: String, email: String, username: String, password: String): AuthPayload
     login(username: String!, password: String!): AuthPayload
     # post crud
-    createPost(content: String, attatchment_url: String, priv_post: Boolean): Post
+    createPost(content: String, attatchment_url: String, priv_post: Boolean, tags: [String]): Post
     updatePost(post_id: Int!, author_id: Int, content: String, attatchment_url: String, priv_post: Boolean): Post
     deletePost(post_id: Int!, author_id: Int): Post
     # post clap crud
@@ -51,6 +51,7 @@ type Mutation {
     deleteQuestionCommentClap(question_comment_clap_id: Int!, author_id: Int): Question_Comment_Clap
     # tags
     createPostTag(post_id: Int!, tag_id: Int!): Post_Tag
+    createPostTags(post_id: Int, tag_ids: [Int]): [Post_Tag]
     createQuestionTag(question_id: Int!, tag_id: Int!): Question_Tag
     createTag(tag: String): Tag
     createTags(tags: [String]): [Tag]
