@@ -397,20 +397,6 @@ function createPostTags(parent, args, context, info) {
     return post_tags
 }
 
-// function createTags(parent, args, context, info) {
-//     const userId = getUserId(context)
-//     var tags_created = []
-//     tags = args.tags
-//     tags.map(tag => 
-//         tags_created = tags_created.concat(context.prisma.tag.create({
-//             data: {
-//                 tag: tag
-//             }
-//         }))
-//     )
-//     return tags_created
-// }
-
 function createQuestionTag(parent, args, context, info) {
     const userId = getUserId(context)
     return context.prisma.question_Tag.create({
