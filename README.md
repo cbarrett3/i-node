@@ -1,9 +1,9 @@
-# IndieCulture Node
+# <i>i Node</i> : a generic graphql api for social networking apps
 
 [![Open Source](https://badgen.net/badge/Open%20Source/%E2%9C%93/blue?icon=github)](https://github.com/cbarrett3/indieculture-node)
 
 ## Overview
-IndieCulture Node is a backend framework for social networking applications, built using GraphQL, Apollo, and Node.js. It serves as a robust starting point or guide for developers looking to create or enhance their own social networking APIs.
+<i>i</> Node is a backend framework for social networking applications, built using GraphQL, Apollo, and Node.js. It serves as a robust starting point or guide for developers looking to create or enhance their own social networking APIs.
 
 ## Key Features
 - **GraphQL Yoga**: An easy-to-implement GraphQL server.
